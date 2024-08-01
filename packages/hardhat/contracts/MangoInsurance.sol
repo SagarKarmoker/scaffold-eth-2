@@ -91,6 +91,8 @@ contract MangoInsurance {
         require(policy.farmer == msg.sender, "Only policy owner can file claim");
         require(policy.isActive, "Policy is not active");
         require(block.timestamp >= policy.startDate && block.timestamp <= policy.endDate, "Policy not active");
+        require(_claimAmount > 0, "Invalid claim amount");
+        // require(_claimAmount == policies[_policyId].premium/2, "Invalid claim amount");
 
         claimCounter++;
         claims[claimCounter] = Claim({
@@ -130,7 +132,7 @@ contract MangoInsurance {
     function resolveDispute(uint256 _claimId, bool _isApproved) external onlyRole(Role.Auditor) {
         Claim storage claim = claims[_claimId];
         Policy storage policy = policies[claim.policyId];
-        require(claim.status == ClaimStatus.Pending, "Claim already processed");
+        require(claim.status == ClaimStatus.Rejected, "Claim already processed");
         require(claimDisputes[_claimId] == address(0), "Dispute already resolved");
 
         claimDisputes[_claimId] = msg.sender;
@@ -150,5 +152,15 @@ contract MangoInsurance {
 
     function getFarmerPolicies(address _farmer) external view returns (uint256[] memory) {
         return farmerPolicies[_farmer];
+    }
+
+    // Receive function to handle plain Ether transfers
+    receive() external payable {
+        // Custom logic can be added here if needed
+    }
+
+    // Fallback function to handle calls to non-existent functions
+    fallback() external payable {
+        // Custom logic can be added here if needed
     }
 }

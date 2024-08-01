@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-contract MockOracle is Ownable {
+contract MockOracle {
     uint256 private premiumRate;
 
-    function setPremiumRate(uint256 _premiumRate) external onlyOwner {
-        premiumRate = _premiumRate;
+    function setPremiumRate(uint256 _rate) external {
+        premiumRate = _rate;
     }
 
     function getPremiumRate() external view returns (uint256) {
