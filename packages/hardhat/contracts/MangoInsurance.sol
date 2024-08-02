@@ -1,3 +1,7 @@
+/**
+ * @title MangoInsurance
+ * @dev A smart contract for managing insurance policies and claims in the Mango ecosystem.
+ */
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
